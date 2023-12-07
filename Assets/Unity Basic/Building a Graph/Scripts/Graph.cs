@@ -6,8 +6,11 @@ public class Graph : MonoBehaviour
     Transform pointPrefab;
     Transform[] points;
 
-    [SerializeField, Range(10, 10000)]
+    [SerializeField, Range(10, 100)]
     int resolution = 10;
+
+    [SerializeField, Range(0, 2)]
+    int function;
 
     // X coordinates handled here because they won't change
     void Awake()
@@ -35,7 +38,18 @@ public class Graph : MonoBehaviour
         {
             Transform point = points[i];
             Vector3 position = point.localPosition;
-            position.y = Mathf.Sin(Mathf.PI * (position.x + time));
+            if (function == 0)
+            {
+                position.y = Functionlibrary.Wave(position.x, time);
+            }
+            else if(function == 1) {
+                position.y = Functionlibrary.MultiWave(position.x, time);
+            }
+
+            else
+            {
+                position.y = Functionlibrary.Ripple(position.x, time);
+            }
             point.localPosition = position;
         }
     }
