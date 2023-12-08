@@ -9,8 +9,8 @@ public class Graph : MonoBehaviour
     [SerializeField, Range(10, 100)]
     int resolution = 10;
 
-    [SerializeField, Range(0, 2)]
-    int function;
+    [SerializeField]
+    Functionlibrary.FunctionName function;
 
     // X coordinates handled here because they won't change
     void Awake()
@@ -33,23 +33,13 @@ public class Graph : MonoBehaviour
     // Y coordinates handled here because they'll be updating constantly
     void Update ()
     {
+        Functionlibrary.Function f = Functionlibrary.GetFunction(function);
         float time = Time.time;
         for (int i = 0; i < points.Length;i++)
         {
             Transform point = points[i];
             Vector3 position = point.localPosition;
-            if (function == 0)
-            {
-                position.y = Functionlibrary.Wave(position.x, time);
-            }
-            else if(function == 1) {
-                position.y = Functionlibrary.MultiWave(position.x, time);
-            }
-
-            else
-            {
-                position.y = Functionlibrary.Ripple(position.x, time);
-            }
+            position.y = f(position.x, time);
             point.localPosition = position;
         }
     }
